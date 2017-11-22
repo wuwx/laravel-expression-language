@@ -2,15 +2,15 @@
 namespace Wuwx\LaravelExpressionLanguage\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use Symfony\Component\ExpressionLanguage\SyntaxError;
+use Wuwx\LaravelExpressionLanguage\Managers\ExpressionLanguageManager;
 
 class ExpressionLanguageServiceProvider extends ServiceProvider
 {
     public function register()
     {
         $this->app->singleton('expressionLanguage', function () {
-            $expressionLanguage = new ExpressionLanguage();
+            $expressionLanguage = new ExpressionLanguageManager();
+            return $expressionLanguage;
         });
     }
 }
