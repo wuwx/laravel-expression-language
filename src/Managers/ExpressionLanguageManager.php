@@ -1,6 +1,7 @@
 <?php
 namespace Wuwx\LaravelExpressionLanguage\Managers;
 
+use RuntimeException;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
@@ -20,6 +21,7 @@ class ExpressionLanguageManager
         try {
             return $this->expressionLanguage->evaluate($expression, $values);
         } catch (SyntaxError $error) {
+        } catch (RuntimeException $error) {
         }
     }
 }
