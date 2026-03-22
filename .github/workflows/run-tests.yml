@@ -14,27 +14,39 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ 8.4, 8.3, 8.2, 8.1, 8.0, 7.4, 7.3 ]
-        laravel: [ 12.*, 11.*, 10.*, 9.*, 8.*, 7.*, 6.*, 5.8 ]
+        php: [ 8.5, 8.4, 8.3, 8.2, 8.1, 8.0, 7.4, 7.3 ]
+        laravel: [ 13.*, 12.*, 11.*, 10.*, 9.*, 8.*, 7.*, 6.*, 5.8 ]
         stability: [ prefer-lowest, prefer-stable ]
         include:
+          - laravel: 13.*
+            testbench: 11.*
           - laravel: 12.*
             testbench: 10.*
           - laravel: 11.*
-            testbench: 9.*
+            testbench: ^9.2
           - laravel: 10.*
             testbench: 8.*
           - laravel: 9.*
             testbench: 7.*
           - laravel: 8.*
-            testbench: 6.23
+            testbench: ^6.22
           - laravel: 7.*
-            testbench: 5.20
+            testbench: 5.*
           - laravel: 6.*
-            testbench: 4.18
+            testbench: 4.*
           - laravel: 5.8
             testbench: 3.8
         exclude:
+          - laravel: 13.*
+            php: 8.2
+          - laravel: 13.*
+            php: 8.1
+          - laravel: 13.*
+            php: 8.0
+          - laravel: 13.*
+            php: 7.4
+          - laravel: 13.*
+            php: 7.3
           - laravel: 12.*
             php: 8.1
           - laravel: 12.*
@@ -62,6 +74,8 @@ jobs:
           - laravel: 9.*
             php: 7.3
           - laravel: 7.*
+            php: 8.5
+          - laravel: 7.*
             php: 8.4
           - laravel: 7.*
             php: 8.3
@@ -70,6 +84,8 @@ jobs:
           - laravel: 7.*
             php: 8.1
           - laravel: 6.*
+            php: 8.5
+          - laravel: 6.*
             php: 8.4
           - laravel: 6.*
             php: 8.3
@@ -77,6 +93,8 @@ jobs:
             php: 8.2
           - laravel: 6.*
             php: 8.1
+          - laravel: 5.8
+            php: 8.5
           - laravel: 5.8
             php: 8.4
           - laravel: 5.8
@@ -103,6 +121,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          composer config audit.block-insecure false
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
